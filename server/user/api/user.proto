@@ -1,0 +1,74 @@
+syntax = "proto3";
+option go_package="tiktok/server/user/api/user-proto";
+import "google/protobuf/empty.proto";
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  int64 user_id = 1;
+  string token = 2;
+}
+
+message RegisterRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message RegisterResponse {
+  int64 user_id = 1;
+  string token = 2;
+}
+
+message GetUserInfoRequest {
+  string user_id = 1;
+  string  me_id = 2;
+}
+
+message GetUserInfoResponse {
+  int64 id = 1;
+  string name = 2;
+  string avatar = 3;
+  string background_image = 4;
+  string  signature = 5;
+
+  int64 follow_count = 6;
+  int64 follower_count = 7;
+  bool is_follow = 8;
+
+  int64 total_favorited = 9;
+  int64 work_count = 10;
+  int64 favorite_count = 11;
+}
+
+message OpCountRequest {
+  string user_id = 1;
+}
+
+
+
+// user服务计算服务
+service User {
+  rpc Register(RegisterRequest) returns (RegisterResponse);
+  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc GetUserInfo(GetUserInfoRequest) returns (GetUserInfoResponse);
+
+  rpc IncrTotalFavorited(OpCountRequest) returns (google.protobuf.Empty);
+  rpc DecrTotalFavorited(OpCountRequest) returns (google.protobuf.Empty);
+
+  rpc IncrWorkCount(OpCountRequest) returns (google.protobuf.Empty);
+  rpc DecrWorkCount(OpCountRequest) returns (google.protobuf.Empty);
+
+  rpc IncrFavoriteCount(OpCountRequest) returns (google.protobuf.Empty);
+  rpc DecrFavoriteCount(OpCountRequest) returns (google.protobuf.Empty);
+
+  rpc IncrFollowCount(OpCountRequest) returns (google.protobuf.Empty);
+  rpc DecrFollowCount(OpCountRequest) returns (google.protobuf.Empty);
+
+  rpc IncrFollowerCount(OpCountRequest) returns (google.protobuf.Empty);
+  rpc DecrFollowerCount(OpCountRequest) returns (google.protobuf.Empty);
+
+ }
+
